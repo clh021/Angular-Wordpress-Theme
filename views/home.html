@@ -1,0 +1,117 @@
+<div class="col s12 m9">
+
+    <div class="container section">
+
+        <div class="row" ng-if="vmh.restApiActive && vmh.acfActive">
+            <div class="col s12">
+                <div class="row">
+                    <div class="col l4 m12 sticky-sale">
+                        <!-- Para pantallas grandes -->
+                        <div class="hide-on-med-and-down">
+                            <img ng-src="{{vmh.sticky[0].url_thumbnail.stickyhome_large}}" alt="{{vmh.sticky[0].title.rendered}}" class="responsive-img">
+                            <h5 class="title">Destacada en venta</h5>
+                            <p class="subtitle">{{vmh.sticky[0].fields.venta_precio | currency:"€":0}} / {{vmh.sticky[0].fields.venta_numero_habitaciones}} Dormitorios / {{vmh.sticky[0].fields.venta_numero_banos}} baños</p>
+                            <div ng-bind-html="vmh.sticky[0].excerpt.rendered"></div>
+                            <div class="section">
+                                <a class="waves-effect waves-light btn cyan darken-3" href="#/comprar-vivienda/{{vmh.sticky[0].id}}"><i class="material-icons left">remove_red_eye</i>Ver</a>
+                            </div>
+                        </div>
+                        <!-- para pantallas medianas o pequeñas-->
+                        <div class="hide-on-large-only">
+                            <!-- para pantallas medianas -->
+                            <div class="row hide-on-small-only">
+                                <div class="col m4 s12">
+                                    <img ng-src="{{vmh.sticky[0].url_thumbnail.stickyhome_med}}" alt="{{vmh.sticky[0].title.rendered}}" class="responsive-img">
+                                </div>
+                                <div class="col m8 s12">
+                                    <h5 class="title no-margin-top">Destacada en venta</h5>
+                                    <p class="subtitle">{{vmh.sticky[0].fields.venta_precio | currency:"€":0}} / {{vmh.sticky[0].fields.venta_numero_habitaciones}} Dormitorios / {{vmh.sticky[0].fields.venta_numero_banos}} baños</p>
+                                    <div ng-bind-html="vmh.sticky[0].excerpt.rendered"></div>
+                                    <div class="section">
+                                        <a class="waves-effect waves-light btn cyan darken-3" href="#/comprar-vivienda/{{vmh.sticky[0].id}}"><i class="material-icons left">remove_red_eye</i>Ver</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- para pantallas pequeñas -->
+                            <div class="row hide-on-med-only">
+                                <div class="col m5 s12">
+                                    <img ng-src="{{vmh.sticky[0].url_thumbnail.stickyhome_small}}" alt="{{vmh.sticky[0].title.rendered}}" class="responsive-img">
+                                </div>
+                                <div class="col m7 s12">
+                                    <h5 class="title">Destacada en venta</h5>
+                                    <p class="subtitle">{{vmh.sticky[0].fields.venta_precio | currency:"€":0}} / {{vmh.sticky[0].fields.venta_numero_habitaciones}} Dormitorios / {{vmh.sticky[0].fields.venta_numero_banos}} baños</p>
+                                    <div ng-bind-html="vmh.sticky[0].excerpt.rendered"></div>
+                                    <div class="section">
+                                        <a class="waves-effect waves-light btn cyan darken-3" href="#/comprar-vivienda/{{vmh.sticky[0].id}}"><i class="material-icons left">remove_red_eye</i>Ver</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col l4 m6 s12">
+                        <ul class="collection with-header no-margin-top">
+                            <li class="collection-header"><h5 class="center-align">Últimas en venta</h5></li>
+                            <li ng-repeat="item in vmh.sale" class="collection-item avatar">
+                                <a href="#/comprar-vivienda/{{item.id}}" class="cyan-text text-darken-4">
+                                    <img ng-src="{{item.url_thumbnail.extrasmall}}" alt="{{item.title.rendered}}" class="square">
+                                    <span class="title">{{item.fields.venta_precio | currency:"€":0}}</span>
+                                    <p>{{item.fields.venta_numero_habitaciones}} dormitorios<br />
+                                        {{item.fields.venta_numero_banos}} baños</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col l4 m6 s12">
+                        <ul class="collection with-header no-margin-top">
+                            <li class="collection-header"><h5 class="center-align">Últimas en alquiler</h5></li>
+                            <li ng-repeat="item in vmh.rent" class="collection-item avatar">
+                                <a href="#/alquilar-vivienda/{{item.id}}" class="cyan-text text-darken-4">
+                                    <img ng-src="{{item.url_thumbnail.extrasmall}}" alt="{{item.title.rendered}}" class="square">
+                                    <span class="title">{{item.fields.alquiler_precio | currency:"€":0}}</span>
+                                    <p>{{item.fields.alquiler_numero_habitaciones}} dormitorios<br />
+                                        {{item.fields.alquiler_numero_banos}} baños</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="!vmh.restApiActive || !vmh.acfActive">
+            <div class="col l12 center-align">
+                <h3>Contacta con el administrador, algo está fallando y pueda serle útil</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col m6 s12">
+                <div class="card cyan darken-3">
+                    <div class="card-content white-text">
+                        <span class="card-title">Comprar</span>
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#/comprar-vivienda">Comprar vivienda</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col m6 s12">
+                <div class="card cyan darken-3">
+                    <div class="card-content white-text">
+                        <span class="card-title">Alquiler</span>
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#/alquilar-vivienda">Alquilar vivienda</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

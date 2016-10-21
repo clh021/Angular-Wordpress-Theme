@@ -1,0 +1,58 @@
+<div class="col s12 m9">
+    <div class="container section">
+
+        <div class="row" ng-if="vm.restApiActive && vm.acfActive">
+
+            <div class="col l8 m12">
+                <h3 ng-bind-html="vm.post.title.rendered"></h3>
+                <div class="gallery" gallery="{selector: '.image'}">
+                    <div ng-repeat="url in vm.post.url_gallery">
+                        <a href="{{url}}" class="image" title="{{url.title}}">
+                            <img ng-src="{{url}}" />
+                        </a>
+                    </div>
+                </div>
+                <div ng-bind-html="vm.post.fields.alquiler_descripcion_vivienda"></div>
+            </div>
+
+            <div class="col l4 m12 s12">
+                <div class="row">
+                    <div class="col l12 m7 s12">
+                        <ul class="collection with-header">
+                            <li class="collection-header"><h4 class="center-align capitalize">{{vm.post.fields.alquiler_tipo}}</h4></li>
+                            <li class="collection-item"><div>Precio<span class="description-table">{{vm.post.fields.alquiler_precio | currency:"€":0}}</span></div></li>
+                            <li class="collection-item"><div>Habitaciones<span class="description-table">{{vm.post.fields.alquiler_numero_habitaciones}}</span></div></li>
+                            <li class="collection-item"><div>Baños<span class="description-table">{{vm.post.fields.alquiler_numero_banos}}</span></div></li>
+                            <li class="collection-item"><div>Superficie<span class="description-table">{{vm.post.fields.alquiler_metros_cuadrados}} m<sup>2</sup></span></div></li>
+                        </ul>
+                    </div>
+                    <div class="col l12 m5 s12">
+                        <ul class="collection with-header">
+                            <li class="collection-header"><h4 class="center-align">Similares...</h4></li>
+                            <li ng-if="relevant.id != vm.post.id" ng-repeat="relevant in vm.relevants" class="collection-item avatar">
+                                <a href="#/alquilar-vivienda/{{relevant.id}}" class="cyan-text text-darken-4">
+                                    <img ng-src="{{relevant.url_thumbnail.extrasmall}}" alt="{{relevant.title.rendered}}" class="square">
+                                    <span class="title">{{relevant.fields.alquiler_precio | currency:"€":0}}</span>
+                                    <p>{{relevant.fields.alquiler_numero_habitaciones}} dormitorios<br />
+                                        {{relevant.fields.alquiler_numero_banos}} baños</p>
+                                    </a>
+                                </li>
+                            <li ng-if="vm.relevants.length <= 1" class="collection-item">
+                                <p>No existen viviendas similares</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row" ng-if="!vm.restApiActive || !vm.acfActive">
+            <div class="col l12 center-align">
+                <h3>Contacta con el administrador, algo está fallando y pueda serle útil</h3>
+            </div>
+        </div>
+
+    </div>
+</div>
