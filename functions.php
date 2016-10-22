@@ -3,14 +3,9 @@
  *  Author: Ivan
  */
 
-/* GLOBAL VARS */
-
 global $theme_name;
-
 $theme_name = 'ivanalbizu';
 
-
-/* LOAD MODULES */
 
 foreach ( glob( get_template_directory() . '/lib/*/functions.php') as $lib_functions ) {
 	include_once( $lib_functions );
@@ -24,10 +19,6 @@ if ( function_exists( 'add_theme_support' ) ) {
 
 	load_theme_textdomain( $theme_name, get_template_directory() . '/lang' );
 
-	// Add Menu Support
-	add_theme_support( 'menus' );
-
-	// Add Thumbnail Theme Support
 	add_theme_support( 'post-thumbnails' );
 
 	add_image_size('extrasmall', 70, 57, true);
@@ -128,41 +119,6 @@ function load_admin_styles() {
 
 }
 
-
-
-
-// Custom Excerpts
-function excerpt_length_default( $length ) { // Create 20 Word Callback for Index page Excerpts, call using custom_excerpt( 'excerpt_length_default' );
-	return 20;
-}
-
-// Create 40 Word Callback for Custom Post Excerpts, call using custom_excerpt( 'excerpt_length_custom_post' );
-function excerpt_length_custom_post( $length ) {
-	return 40;
-}
-
-// Create the Custom Excerpts callback
-function custom_excerpt( $length_callback = '', $more_callback = '' ) {
-
-	global $post;
-
-	if ( function_exists( $length_callback ) ) {
-		add_filter( 'excerpt_length', $length_callback );
-	}
-
-	if ( function_exists( $more_callback ) ) {
-		add_filter( 'excerpt_more', $more_callback );
-	}
-
-	$output = get_the_excerpt();
-	$output = apply_filters('wptexturize', $output);
-	$output = apply_filters('convert_chars', $output);
-	$output = '<p>' . $output . '</p>';
-
-	echo $output;
-}
-
-
 // Remove Admin bar
 function remove_admin_bar() {
 	return false;
@@ -180,43 +136,21 @@ add_action('wp_enqueue_scripts', 'load_styles'); // Add Theme Stylesheet
 add_action('admin_enqueue_scripts', 'load_admin_styles' ); // Add Admin Stylesheet
 add_action('init', 'create_custom_post_types'); // Add custom Post Type
 
-// Remove Actions
-remove_action('wp_head', 'feed_links_extra', 3); // Display the links to the extra feeds such as category feeds
-remove_action('wp_head', 'feed_links', 2); // Display the links to the general feeds: Post and Comment Feed
-remove_action('wp_head', 'rsd_link'); // Display the link to the Really Simple Discovery service endpoint, EditURI link
-remove_action('wp_head', 'wlwmanifest_link'); // Display the link to the Windows Live Writer manifest file.
-remove_action('wp_head', 'index_rel_link'); // Index link
-remove_action('wp_head', 'parent_post_rel_link', 10, 0); // Prev link
-remove_action('wp_head', 'start_post_rel_link', 10, 0); // Start link
-remove_action('wp_head', 'adjacent_posts_rel_link', 10, 0); // Display relational links for the posts adjacent to the current post.
-remove_action('wp_head', 'wp_generator'); // Display the XHTML generator that is generated on the wp_head hook, WP version
-remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);
-remove_action('wp_head', 'rel_canonical');
-remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
 
 // Dequeue emoji CSS
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
 // Add Filters
-//add_filter('body_class', 'add_slug_to_body_class'); // Add slug to body class (Starkers build)
-//add_filter('widget_text', 'do_shortcode'); // Allow shortcodes in Dynamic Sidebar
-//add_filter('widget_text', 'shortcode_unautop'); // Remove <p> tags in Dynamic Sidebars (better!)
-//add_filter('wp_nav_menu_args', 'alter_wp_nav_menu_args'); // Remove surrounding <div> from WP Navigation
-
-//add_filter('the_excerpt', 'shortcode_unautop'); // Remove auto <p> tags in Excerpt (Manual Excerpts only)
-//add_filter('the_excerpt', 'do_shortcode'); // Allows Shortcodes to be executed in Excerpt (Manual Excerpts only)
 add_filter('show_admin_bar', 'remove_admin_bar'); // Remove Admin bar
-//add_filter('style_loader_tag', 'html5_style_remove'); // Remove 'text/css' from enqueued stylesheet
 add_filter('post_thumbnail_html', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to thumbnails
 add_filter('image_send_to_editor', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to post images
 
 // Remove Filters
 remove_filter( 'the_excerpt', 'wpautop' ); // Remove <p> tags from Excerpt altogether
 
+
 /* Custom Post Types */
-
-
 function create_custom_post_types() {
 
 	$taxonomy_args = array(
@@ -224,7 +158,6 @@ function create_custom_post_types() {
 	);
 
 	create_post_type( 'sale', '', 'sale', 'Venta', 'Ventas' );
-
 	create_post_type( 'rent', '', 'rent', 'Alquiler', 'Alquileres' );
 
 }
@@ -295,40 +228,6 @@ function new_mail_from_name( $old ) {
 	return get_bloginfo();
 }
 add_filter( 'wp_mail_from_name', 'new_mail_from_name' );
-
-
-// Get thumbnail url
-function get_thumb_url( $id, $size = 'full', $default = '/img/default_team.png' ) {
-
-	$image = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), $size );
-	$image = $image[ 0 ];
-
-	if ( $image ) {
-		$image_url = $image;
-	} else {
-		$image_url = get_template_directory_uri() . $default;
-	}
-
-	return $image_url;
-}
-
-function the_thumb_url( $id, $size = 'full', $default = '/img/default_team.png' ) {
-	echo get_thumb_url( $id, $size, $default );
-}
-
-// Get thumbnail alt
-function get_thumb_alt( $id ) {
-	$img_id = get_post_thumbnail_id( $id );
-	$alt_text = get_post_meta($img_id , '_wp_attachment_image_alt', true);
-
-	return $alt_text;
-}
-
-function the_thumb_alt( $id ) {
-	echo get_thumb_alt( $id );
-}
-
-
 
 
 /**
@@ -404,7 +303,6 @@ function deregister_cf7_script() {
 
 
 /* OPTIONS FUNCTIONS */
-
 function get_logo_url() {
 
 	$logo_url = get_template_directory_uri() . '/img/logo.png';
@@ -558,11 +456,7 @@ function the_social_menu( ) {
 
 
 
-
-
 if ( is_plugin_active( 'rest-api/plugin.php' ) ) {
-
-
 
 	$show_in_rest = true;
 	/**
@@ -628,9 +522,6 @@ if ( is_plugin_active( 'rest-api/plugin.php' ) ) {
 	}
 
 
-
-
-
 	function get_all_fields_acf($data, $field, $request, $type) {
 		if ( function_exists( 'get_fields' ) ) {
 			return get_fields($data['id']);
@@ -666,8 +557,6 @@ if ( is_plugin_active( 'rest-api/plugin.php' ) ) {
 		}
 		return $result;
 	}
-
-
 
 
 	add_filter( 'rest_query_vars', 'valid_vars_metaquery');
