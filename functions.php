@@ -17,8 +17,6 @@ if ( function_exists( 'add_theme_support' ) ) {
 
 	global $theme_name;
 
-	load_theme_textdomain( $theme_name, get_template_directory() . '/lang' );
-
 	add_theme_support( 'post-thumbnails' );
 
 	add_image_size('extrasmall', 70, 57, true);
