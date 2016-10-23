@@ -20,7 +20,7 @@
             function getPost(id) {
                 SingleRentFactory.getPostData(id).then(function(dataResponse) {
                     vm.post = dataResponse.data;
-                    getRelevantPost(vm.post.fields.venta_numero_habitaciones, vm.post.fields.venta_numero_banos);
+                    getRelevantPost(vm.post.fields.alquiler_numero_habitaciones, vm.post.fields.alquiler_numero_banos);
                 });
             }
 

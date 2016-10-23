@@ -133,6 +133,7 @@ add_action('init', 'load_header_scripts'); // Add Custom Scripts to wp_head
 add_action('wp_enqueue_scripts', 'load_styles'); // Add Theme Stylesheet
 add_action('admin_enqueue_scripts', 'load_admin_styles' ); // Add Admin Stylesheet
 add_action('init', 'create_custom_post_types'); // Add custom Post Type
+add_action( 'init', 'remove_support_page' );
 
 
 // Dequeue emoji CSS
@@ -146,6 +147,13 @@ add_filter('image_send_to_editor', 'remove_thumbnail_dimensions', 10); // Remove
 
 // Remove Filters
 remove_filter( 'the_excerpt', 'wpautop' ); // Remove <p> tags from Excerpt altogether
+
+
+function remove_support_page() {
+	remove_post_type_support( 'page', 'thumbnail' );
+	remove_post_type_support( 'page', 'editor' );
+	remove_post_type_support( 'page', 'page-attributes' );
+}
 
 
 /* Custom Post Types */
@@ -372,18 +380,22 @@ function get_social_menu( $id = "social-icons" ) {
 
 	$result = '';
 
-	$facebook		= of_get_option( 'facebook_link' );
-	$twitter		= of_get_option( 'twitter_link' );
-	$linkedin		= of_get_option( 'linkedin_link' );
-	$gplus 			= of_get_option( 'gplus_link' );
-	$youtube 		= of_get_option( 'youtube_link' );
-	$instagram 		= of_get_option( 'instagram_link' );
-	$pinterest		= of_get_option( 'pinterest_link' );
-	$linkedin		= of_get_option( 'linkedin_link' );
+	$latest_page = get_posts("post_type=page&numberposts=1");
 
-	if ( $facebook || $twitter || $linkedin || $gplus || $youtube || $instagram || $pinterest || $linkedin  ) {
+	if ($latest_page) {
+		$latest_page_id = $latest_page[0]->ID;
 
-		ob_start(); ?>
+		$facebook		= get_field( "facebook_link",  $latest_page_id );
+		$twitter		= get_field( "twitter_link",  $latest_page_id );
+		$linkedin		= get_field( "linkedin_link",  $latest_page_id );
+		$instagram 		= get_field( "instagram_link",  $latest_page_id );
+	} else {
+		return $result;
+	}
+
+	if ( $facebook || $twitter || $linkedin || $instagram ) {
+
+		?>
 
 		<ul id="<?php echo $id; ?>">
 			<?php if ( $facebook ) { ?>
@@ -407,20 +419,6 @@ function get_social_menu( $id = "social-icons" ) {
 				</a>
 			</li>
 			<?php } ?>
-			<?php if ( $gplus ) { ?>
-			<li>
-				<a href="<?php echo $gplus; ?>" target="_blank"><i class="fa fa-google-plus"></i>
-
-				</a>
-			</li>
-			<?php } ?>
-			<?php if ( $youtube ) { ?>
-			<li>
-				<a href="<?php echo $youtube; ?>" target="_blank"><i class="fa fa-youtube"></i>
-
-				</a>
-			</li>
-			<?php } ?>
 			<?php if ( $instagram ) { ?>
 			<li>
 				<a href="<?php echo $instagram; ?>" target="_blank">
@@ -428,22 +426,13 @@ function get_social_menu( $id = "social-icons" ) {
 				</a>
 			</li>
 			<?php } ?>
-			<?php if ( $pinterest ) { ?>
-			<li>
-				<a href="<?php echo $pinterest; ?>" target="_blank"><i class="fa fa-pinterest-p"></i>
-
-				</a>
-			</li>
-			<?php } ?>
 
 		</ul>
 
 		<?php
-		$result = ob_get_clean();
-
 	}
 
-	return $result;
+	//return $result;
 }
 
 function the_social_menu( ) {
@@ -456,11 +445,8 @@ function the_social_menu( ) {
 
 if ( is_plugin_active( 'rest-api/plugin.php' ) ) {
 
-	$show_in_rest = true;
-	/**
-	* Add the field "spaceship" to REST API responses for posts read and write
-	*/
 	add_action( 'rest_api_init', 'slug_register_spaceship' );
+
 	function slug_register_spaceship() {
 
 		// Return all fields create with ACF created for
@@ -559,11 +545,19 @@ if ( is_plugin_active( 'rest-api/plugin.php' ) ) {
 
 	add_filter( 'rest_query_vars', 'valid_vars_metaquery');
 	function valid_vars_metaquery( $valid_vars ) {
-	    return array_merge( $valid_vars, array( 'venta_numero_habitaciones', 'venta_numero_banos', 'venta_destacada', 'meta_query' ) );
+	    return array_merge( $valid_vars, array(
+												'venta_numero_habitaciones',
+												'venta_numero_banos',
+												'venta_destacada',
+												'alquiler_numero_habitaciones',
+												'alquiler_numero_banos',
+												'meta_query'
+											)
+										);
 	}
 
-	add_filter( 'rest_sale_query', 'filter_num_hab_ban', 10, 2 );
-	function filter_num_hab_ban( $args, $request ) {
+	add_filter( 'rest_sale_query', 'filter_sale_num_hab_ban', 10, 2 );
+	function filter_sale_num_hab_ban( $args, $request ) {
 	    $venta_numero_habitaciones = $request->get_param( 'venta_numero_habitaciones' );
 	    $venta_numero_banos = $request->get_param( 'venta_numero_banos' );
 	    $venta_destacada = $request->get_param( 'venta_destacada' );
@@ -595,6 +589,30 @@ if ( is_plugin_active( 'rest-api/plugin.php' ) ) {
 				'filter[posts_per_page]' => wp_count_posts( 'sale' ),
 	        );
 	    }
+
+	    return $args;
+	}
+
+	add_filter( 'rest_rent_query', 'filter_rent_num_hab_ban', 10, 2 );
+	function filter_rent_num_hab_ban( $args, $request ) {
+		$alquiler_numero_habitaciones = $request->get_param( 'alquiler_numero_habitaciones' );
+		$alquiler_numero_banos = $request->get_param( 'alquiler_numero_banos' );
+
+		// if on url has parameter: alquiler_numero_habitaciones and alquiler_numero_banos
+		if ( ! empty( $alquiler_numero_habitaciones ) && ! empty( $alquiler_numero_banos ) ) {
+			$args['meta_query'] = array(
+				array(
+					'key'     => 'alquiler_numero_habitaciones',
+					'value'   => $alquiler_numero_habitaciones,
+					'compare' => '=',
+				),
+				array(
+					'key'     => 'alquiler_numero_banos',
+					'value'   => $alquiler_numero_banos,
+					'compare' => '=',
+				)
+			);
+		}
 
 	    return $args;
 	}

@@ -29,12 +29,6 @@ function register_required_plugins() {
 
 		// Include plugins from the WordPress Plugin Repository.
 		array(
-			'name'      => 'Options Framework',
-			'slug'      => 'options-framework',
-			'required'  => true,
-		),
-
-		array(
 			'name'      => 'Advanced Custom Fields',
 			'slug'      => 'advanced-custom-fields',
 			'required'  => true,

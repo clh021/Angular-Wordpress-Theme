@@ -39,19 +39,12 @@
 
             return {
                 getPostData: getPostData,
-                getStickyPostData: getStickyPostData,
                 getRelevantPostData: getRelevantPostData,
                 getLastsPostData: getLastsPostData
             };
 
             function getPostData(id) {
                 return $http.get(URL_API.BASE_URL + '/wp/v2/rent/' + id).success(function(res){
-                    return res;
-                });
-            }
-
-            function getStickyPostData() {
-                return $http.get(URL_API.BASE_URL + '/wp/v2/rent?alquiler_destacada=1').success(function(res){
                     return res;
                 });
             }
