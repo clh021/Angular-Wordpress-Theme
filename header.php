@@ -35,6 +35,7 @@
 					<li ng-class="{active: activetab=='/comprar-vivienda'}"><a href="#/comprar-vivienda/">Comprar</a></li>
 					<li ng-class="{active: activetab=='/alquilar-vivienda'}"><a href="#/alquilar-vivienda/">Alquilar</a></li>
 					<li ng-class="{active: activetab=='/vivienda-favorita'}"><a href="#/vivienda-favorita">Favorito</a></li>
+					<li ng-class="{active: activetab=='/contacto'}"><a href="#/contacto">Contacto</a></li>
 				</ul>
 
 				<ul id="nav-mobile" class="side-nav uppercase">
@@ -43,7 +44,7 @@
 					<li ng-class="{active: activetab=='/alquilar-vivienda'}"><a href="#/alquilar-vivienda/">Alquilar</a></li>
 					<li ng-class="{active: activetab=='/vivienda-favorita'}"><a href="#/vivienda-favorita/">Favorito</a></li>
 					<li><div class="divider"></div></li>
-					<li><a href="javascript:void(0);">Contacto</a></li>
+					<li ng-class="{active: activetab=='/contacto'}"><a href="#/contacto">Contacto</a></li>
 				</ul>
 				<a href="javascript:void(0);" class="button-collapse" data-activates="nav-mobile" data-sidenav="left" data-closeonclick="true">
 					<i class="material-icons">menu</i>

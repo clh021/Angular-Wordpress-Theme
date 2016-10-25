@@ -60,6 +60,9 @@
                 controller: 'LikeCtrl',
                 controllerAs: 'vm'
             })
+            .when('/contacto', {
+                templateUrl: localized.views + 'contacto.html'
+            })
             .otherwise({
                 redirectTo: '/'
             });
