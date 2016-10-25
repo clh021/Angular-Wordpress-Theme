@@ -67,7 +67,6 @@ jQuery(function() {
         var url = window.location.href
         button.attr('disabled','disabled');
         email.blur(function() {
-            console.log('dentro de blur');
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             if ( re.test(email.val()) ) {
                 button.removeAttr('disabled');
@@ -76,9 +75,12 @@ jQuery(function() {
             }
         });
         jQuery("input[type=submit]").on('click', function() {
-            console.log('reload');
             window.setTimeout(function() {
-                window.location.href = url;
+                if (navigator.userAgent.toLowerCase().indexOf('firefox') != -1) {
+                    location.reload(true);
+                } else {
+                    window.location.href = url;
+                }
                 Materialize.toast('Hemos recibido su mensaje<br />Nos pondremos en contacto', 5000);
                 jQuery('form')[0].reset();
                 button.attr('disabled','disabled');
