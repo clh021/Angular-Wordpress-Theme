@@ -87,9 +87,11 @@ function load_header_scripts() {
 		array(
 			'views' => trailingslashit( get_template_directory_uri() ) . 'views/',
 			'state_plugin_rest_api' => is_plugin_active( 'rest-api/plugin.php' ),
-			'state_plugin_acf' => is_plugin_active( 'advanced-custom-fields/acf.php' )
+			'state_plugin_acf' => is_plugin_active( 'advanced-custom-fields/acf.php' ),
+			'contact_form' => get_shortcode_contact_form()
 			)
 		);
+
 	}
 }
 
@@ -432,13 +434,23 @@ function get_social_menu( $id = "social-icons" ) {
 		<?php
 	}
 
-	//return $result;
 }
 
-function the_social_menu( ) {
+function the_social_menu() {
 	echo get_social_menu();
 }
 
+function get_shortcode_contact_form() {
+	$result = '';
+
+	$latest_page = get_posts("post_type=page&numberposts=1");
+	if ($latest_page) {
+		$latest_page_id = $latest_page[0]->ID;
+
+		$result = do_shortcode(get_field( "shortcode_form",  $latest_page_id ));
+	}
+	return $result;
+}
 
 
 

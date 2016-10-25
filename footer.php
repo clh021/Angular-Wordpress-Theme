@@ -12,7 +12,6 @@
 			</nav>
 		</footer>
 php */ ?>
-
 			<footer class="page-footer cyan darken-3">
 			  <div class="container">
 				<div class="row">
