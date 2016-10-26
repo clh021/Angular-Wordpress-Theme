@@ -3,14 +3,14 @@
     <div class="container section">
         <div class="row" ng-if="vm.restApiActive && vm.acfActive">
 
-            <div class="col s12">
+            <div class="col l12">
                 <ul tabs>
                     <li class="tab col s3"><a class="cyan-text text-darken-4" href="#comprar">Comprar</a></li>
                     <li class="tab col s3"><a class="cyan-text text-darken-4" href="#alquilar">Alquilar</a></li>
                 </ul>
             </div>
 
-            <div id="comprar" class="col s12">
+            <div id="comprar" class="col l12">
                 <div class="row">
                     <div ng-repeat="item in vm.sales" id="post-{{item.id}}" class="col s12 m6 l4 section animate-repeat">
 
@@ -75,7 +75,7 @@
 
             </div>
 
-            <div id="alquilar" class="col s12 section">
+            <div id="alquilar" class="col l12 section">
 
                 <div class="row">
                     <div ng-repeat="item in vm.rents" id="post-{{item.id}}" class="col s12 m6 l4 section animate-repeat">
