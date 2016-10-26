@@ -3,12 +3,17 @@
     <div class="container section">
         <div class="row">
 
-            <div class="col l8 m12">
-                <h3>Contacto</h3>
+            <div class="col l5 m12 s12">
                 <div id="render-form"></div>
             </div>
-            <div class="col l4 m12">
-                <p>mapa</p>
+            <div class="col l7 m12 s12">
+                <div id="render-map"></div>
+                <div id="render-location">
+                  <p id="localizacion-calle"></p>
+                  <p id="localizacion-ciudad"></p>
+                  <p id="localizacion-telefono"></p>
+                  <p id="localizacion-email"></p>
+                </div>
             </div>
 
         </div>
@@ -45,6 +50,24 @@ jQuery(function() {
                 return false;
             }, 1000);
         });
+    } else {
+      jQuery('#render-form').css('display','none');
     }
+    if ( localized.google_map != '' ) {
+      jQuery('#render-map').append(localized.google_map)
+    } else {
+      jQuery('#render-map').css('display','none');
+    }
+    if ( localized.location != '' ) {
+      console.log(localized.location);
+      console.log(localized.location.localizacion_calle);
+      jQuery('#localizacion-calle').text(localized.location.localizacion_calle + ' número ' + localized.location.localizacion_numero);
+      jQuery('#localizacion-ciudad').text(localized.location.localizacion_ciudad);
+      jQuery('#localizacion-telefono').text(localized.location.localizacion_telefono);
+      jQuery('#localizacion-email').text(localized.location.localizacion_email);
+    } else {
+      jQuery('#render-location').css('display','none');
+    }
+
 });
 </script>

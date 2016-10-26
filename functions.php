@@ -88,7 +88,9 @@ function load_header_scripts() {
 			'views' => trailingslashit( get_template_directory_uri() ) . 'views/',
 			'state_plugin_rest_api' => is_plugin_active( 'rest-api/plugin.php' ),
 			'state_plugin_acf' => is_plugin_active( 'advanced-custom-fields/acf.php' ),
-			'contact_form' => get_shortcode_contact_form()
+			'contact_form' => get_shortcode_contact_form(),
+			'google_map' => get_google_map(),
+			'location' => get_location()
 			)
 		);
 
@@ -224,8 +226,6 @@ function create_post_type( $post_type_name, $taxonomies = '', $slug = '', $singu
 
 	register_post_type( $post_type_name, $post_type_options );
 }
-
-
 
 
 
@@ -447,11 +447,49 @@ function get_shortcode_contact_form() {
 	if ($latest_page) {
 		$latest_page_id = $latest_page[0]->ID;
 
-		$result = do_shortcode(get_field( "shortcode_form",  $latest_page_id ));
+		$result = do_shortcode(get_field( "shortcode_form", $latest_page_id ));
+	}
+	return $result;
+}
+function get_google_map() {
+	$result = '';
+
+	$latest_page = get_posts("post_type=page&numberposts=1");
+	if ($latest_page) {
+		$latest_page_id = $latest_page[0]->ID;
+
+		$result = get_field( "google_map", $latest_page_id );
 	}
 	return $result;
 }
 
+function get_location( $id = "social-icons" ) {
+
+	$result = '';
+
+	$latest_page = get_posts("post_type=page&numberposts=1");
+
+	if ($latest_page) {
+		$latest_page_id = $latest_page[0]->ID;
+
+		$localizacion_calle			= get_field( "localizacion_calle",  $latest_page_id );
+		$localizacion_numero		= get_field( "localizacion_numero",  $latest_page_id );
+		$localizacion_ciudad		= get_field( "localizacion_ciudad",  $latest_page_id );
+		$localizacion_telefono 	= get_field( "localizacion_telefono",  $latest_page_id );
+		$localizacion_email		 	= get_field( "localizacion_email",  $latest_page_id );
+
+		$result = array (
+	    "localizacion_calle"  => $localizacion_calle,
+	    "localizacion_numero" => $localizacion_numero,
+	    "localizacion_ciudad" => $localizacion_ciudad,
+	    "localizacion_telefono" => $localizacion_telefono,
+	    "localizacion_email" => $localizacion_email
+		);
+		return $result;
+	} else {
+		return '';
+	}
+}
 
 
 
