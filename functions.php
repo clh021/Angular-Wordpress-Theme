@@ -86,6 +86,8 @@ function load_header_scripts() {
 		wp_localize_script('app', 'localized',
 		array(
 			'views' => trailingslashit( get_template_directory_uri() ) . 'views/',
+			'site_url' => get_site_url(),
+			'get_template_directory_uri' => get_template_directory_uri(),
 			'state_plugin_rest_api' => is_plugin_active( 'rest-api/plugin.php' ),
 			'state_plugin_acf' => is_plugin_active( 'advanced-custom-fields/acf.php' ),
 			'contact_form' => get_shortcode_contact_form(),
@@ -479,11 +481,11 @@ function get_location( $id = "social-icons" ) {
 		$localizacion_email		 	= get_field( "localizacion_email",  $latest_page_id );
 
 		$result = array (
-	    "localizacion_calle"  => $localizacion_calle,
-	    "localizacion_numero" => $localizacion_numero,
-	    "localizacion_ciudad" => $localizacion_ciudad,
-	    "localizacion_telefono" => $localizacion_telefono,
-	    "localizacion_email" => $localizacion_email
+		    "localizacion_calle"  => $localizacion_calle,
+		    "localizacion_numero" => $localizacion_numero,
+		    "localizacion_ciudad" => $localizacion_ciudad,
+		    "localizacion_telefono" => $localizacion_telefono,
+		    "localizacion_email" => $localizacion_email
 		);
 		return $result;
 	} else {

@@ -28,7 +28,7 @@
 	<header class="navbar-fixed">
 		<nav class="cyan darken-3">
 			<div class="nav-wrapper">
-				<a href="<?php echo site_url(); ?>/#/" class="brand-logo hide-on-med-and-down" style="height:100%;">
+				<a href="<?php echo site_url(); ?>/#/" class="brand-logo" style="height:100%;">
 					<img src="<?php the_logo_url(); ?>" alt="<?php bloginfo( 'name' ); ?>" style="max-height:100%;">
 				</a>
 				<ul class="right hide-on-med-and-down uppercase">
@@ -38,7 +38,7 @@
 					<li ng-class="{active: activetab=='/contacto'}"><a href="#/contacto">Contacto</a></li>
 				</ul>
 
-				<ul id="nav-mobile" class="side-nav uppercase">
+				<ul id="nav-mobile" class="side-nav uppercase cyan darken-3">
 					<li ng-class="{active: activetab=='/'}"><a href="#/">Home</a></li>
 					<li ng-class="{active: activetab=='/comprar-vivienda'}"><a href="#/comprar-vivienda/">Comprar</a></li>
 					<li ng-class="{active: activetab=='/alquilar-vivienda'}"><a href="#/alquilar-vivienda/">Alquilar</a></li>

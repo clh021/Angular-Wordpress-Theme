@@ -6367,6 +6367,9 @@ textarea:focus {
 .uppercase {
   text-transform: uppercase; }
 
+.italic {
+  font-style: italic; }
+
 .no-margin-top {
   margin-top: 0; }
 
@@ -6578,5 +6581,8 @@ button.mfp-close:active {
   margin-right: 5px; }
 #social-icons svg {
   fill: #ffffff; }
+
+#nav-mobile a {
+  color: white !important; }
 
 /*# sourceMappingURL=materialize.css.map */

@@ -11,7 +11,7 @@
         ])
         .config(config)
         .constant('URL_API', {
-            BASE_URL:  'http://localhost/wordpress/wp-json'
+            BASE_URL: localized.site_url + '/wp-json'
         })
         .value('activePlugin', {
             'rest_api': localized.state_plugin_rest_api,

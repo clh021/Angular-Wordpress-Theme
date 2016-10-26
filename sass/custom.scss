@@ -27,6 +27,9 @@ textarea:focus {
 .uppercase {
     text-transform: uppercase;
 }
+.italic {
+    font-style: italic;
+}
 .no-margin-top {
     margin-top: 0;
 }
@@ -277,4 +280,9 @@ button.mfp-close:active {
     svg {
         fill: #ffffff;
     }
+}
+
+// Side nav
+#nav-mobile a {
+    color: white !important;
 }

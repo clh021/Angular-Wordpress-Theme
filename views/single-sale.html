@@ -59,34 +59,7 @@
 </div>
 
 <script>
-jQuery(function() {
-    if ( jQuery('#render-form').append(localized.contact_form) != '' ) {
-        var email = jQuery('#checkvalid');
-        var button = jQuery("input[type=submit]");
-        var textarea = jQuery('textarea');
-        var url = window.location.href;
-        button.attr('disabled','disabled');
-        email.blur(function() {
-            var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            if ( regex.test(email.val()) ) {
-                button.removeAttr('disabled');
-            } else {
-                button.attr('disabled','disabled');
-            }
-        });
-        jQuery("input[type=submit]").on('click', function() {
-            window.setTimeout(function() {
-                if (navigator.userAgent.toLowerCase().indexOf('firefox') != -1) {
-                    location.reload(true);
-                } else {
-                    window.location.href = url;
-                }
-                Materialize.toast('Hemos recibido su mensaje<br />Nos pondremos en contacto', 5000);
-                jQuery('form')[0].reset();
-                button.attr('disabled','disabled');
-                return false;
-            }, 1000);
-        });
-    }
-});
+    var script = document.createElement('script');
+    script.src = localized.get_template_directory_uri+'/js/custom/script.js';
+    document.body.appendChild(script);
 </script>
