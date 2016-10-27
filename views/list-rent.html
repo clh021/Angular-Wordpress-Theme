@@ -5,6 +5,7 @@
     infinite-scroll-distance="1">
 
     <div class="container section">
+      
         <div class="row">
 
             <div class="col l4 m12 s12">
@@ -73,6 +74,7 @@
             <div class="col l8 m12 s12">
 
                 <div class="row" ng-if="vm.restApiActive && vm.acfActive">
+
                     <div ng-repeat="item in vm.contents.items |
                                     rentNumberBed |
                                     rentNumberBath |
@@ -158,6 +160,7 @@
                 </div>
 
             </div>
+
         </div>
     </div>
 
