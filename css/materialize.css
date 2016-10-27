@@ -6585,4 +6585,14 @@ button.mfp-close:active {
 #nav-mobile a {
   color: white !important; }
 
+@media only screen and (max-width: 992px) {
+  .footer-copyright {
+    height: 80px !important;
+    line-height: 40px !important; }
+    .footer-copyright .container span,
+    .footer-copyright .container a {
+      display: block;
+      width: 100%;
+      text-align: center; } }
+
 /*# sourceMappingURL=materialize.css.map */

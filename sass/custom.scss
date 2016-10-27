@@ -286,3 +286,15 @@ button.mfp-close:active {
 #nav-mobile a {
     color: white !important;
 }
+@media only screen and (max-width: $medium-screen) {
+  .footer-copyright {
+    height: 80px !important;
+    line-height: 40px !important;
+    .container span,
+    .container a {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
